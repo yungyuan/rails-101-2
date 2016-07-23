@@ -8,6 +8,7 @@
         <td>#</td>
         <td>標題</td>
         <td>描述</td>
+        <td>創建者</td>
       </tr>
       <tbody>
         <% @groups.each do |group| %>
@@ -15,6 +16,7 @@
           <td>#</td>
           <td><%= link_to(group.title, group_path(group)) %></td>
           <td><%= group.description %></td>
+          <td><%= group.user.email %></td>
           <td>
             <%= link_to("Edit", edit_group_path(group), class: "btn btn-sm btn-default") %>
             <%= link_to("Delete", group_path(group), class: "btn btn-sm btn-default", method: :delete, data: { confirm: "確定要刪除？"} )%>

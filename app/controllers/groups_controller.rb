@@ -12,7 +12,7 @@ class GroupsController < ApplicationController
 
   def show
     @group = Group.find(params[:id])
-    @posts = @group.posts.recent.paginate(:page => params[:page], :per_page => 6)
+    @posts   = @group.posts.recent.paginate(:page => params[:page], :per_page => 6)
   end
 
   def edit
@@ -40,6 +40,32 @@ class GroupsController < ApplicationController
   def destroy
     @group.destroy
     redirect_to groups_path, alert: "討論組已刪除"
+  end
+
+  def join
+    @group = Group.find(params[:id])
+
+    if !current_user.is_member_of?(@group)
+      current_user.join!(@group)
+      flash[:notice] = "成功加入本討論版！"
+    else
+      flash[:warning] = "你已經是本討論版成員了！"
+    end
+
+    redirect_to group_path(@group)
+  end
+
+  def quit
+    @group = Group.find(params[:id])
+
+    if current_user.is_member_of?(@group)
+      current_user.quit!(@group)
+      flash[:alert] = "已退出本討論版！"
+    else
+      flash[:warning] = "你不是本討論版成員，怎麼退出？"
+    end
+
+    redirect_to groups_path(@group)
   end
 
   private

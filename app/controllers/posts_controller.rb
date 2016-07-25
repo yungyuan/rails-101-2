@@ -37,7 +37,7 @@ class PostsController < ApplicationController
 
     @post.destroy
     #@posts = current_user.posts
-    redirect_to group_path(@posts), alert: "文章已刪除"
+    redirect_to group_path(@group), alert: "文章已刪除"
   end
 
   private
